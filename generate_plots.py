@@ -185,3 +185,51 @@ def plot_boxplot(sensor_a: np.ndarray, sensor_b: np.ndarray, ax):
     ax.grid(axis='y', alpha=0.3)
     # modifies ax in place
 
+def main(seed: int = 3557):
+    """Generate data and produce a 1x3 figure with the three analyses.
+
+    The function generates synthetic sensor data using ``generate_data``,
+    creates a 1x3 Matplotlib figure (scatter, histogram, boxplot), and saves
+    the combined figure to disk as ``sensor_analysis.png`` with 150 DPI and a
+    tight bounding box.
+
+    Parameters
+    ----------
+    seed : int, optional
+        RNG seed passed to ``generate_data`` for reproducibility. Default is
+        3557 (the seed used in the notebook).
+
+    Returns
+    -------
+    None
+        The function saves the figure to disk and does not return a value.
+    """
+    import matplotlib.pyplot as plt
+    import argparse
+
+    # Generate data
+    sensor_a, sensor_b, timestamps = generate_data(seed)
+
+    # Create 1x3 subplot figure
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+
+    # Plot each panel using the helper functions
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
+    plot_histogram(sensor_a, sensor_b, axes[1])
+    plot_boxplot(sensor_a, sensor_b, axes[2])
+
+    plt.tight_layout()
+
+    out_path = 'sensor_analysis.png'
+    fig.savefig(out_path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f'Wrote {out_path}')
+
+
+if __name__ == '__main__':
+    # Allow overriding the seed from the command line
+    import argparse
+    parser = argparse.ArgumentParser(description='Generate sensor plots')
+    parser.add_argument('--seed', type=int, default=3557, help='RNG seed (default: 3557)')
+    args = parser.parse_args()
+    main(seed=args.seed)
