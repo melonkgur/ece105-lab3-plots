@@ -1,1 +1,19 @@
-*.DS_Store
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# AI session transcripts
+ai_transcript.md
+ai_transcript.zip
+*.transcript.md
