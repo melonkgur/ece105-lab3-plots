@@ -51,3 +51,51 @@ def generate_data(seed: int):
     sensor_b = rng.normal(loc=27.0, scale=4.5, size=n).astype(np.float64)
 
     return sensor_a, sensor_b, timestamps
+
+def plot_scatter(sensor_a: np.ndarray, sensor_b: np.ndarray, timestamps: np.ndarray, ax):
+    """Draw a scatter plot of two sensor temperature series on an Axes.
+
+    The function plots sensor_a and sensor_b versus timestamps on the
+    provided Matplotlib Axes object. It styles points to match the notebook
+    visualizations: Sensor A in blue circles, Sensor B in orange X markers,
+    with semitransparent points to reveal overlap. Axes labels, title, legend,
+    and a light grid are added. The Axes object is modified in place and
+    nothing is returned.
+
+    Parameters
+    ----------
+    sensor_a : numpy.ndarray
+        1-D array of shape (N,) containing Sensor A temperature readings
+        (float-like).
+    sensor_b : numpy.ndarray
+        1-D array of shape (N,) containing Sensor B temperature readings
+        (float-like).
+    timestamps : numpy.ndarray
+        1-D array of shape (N,) containing timestamps (seconds) corresponding
+        to the readings. Should be sorted for time-series clarity but the
+        function does not require it.
+    ax : matplotlib.axes.Axes
+        Matplotlib Axes instance on which to draw the scatter plot.
+
+    Returns
+    -------
+    None
+        The function modifies the provided Axes in place.
+    """
+    # Local import to avoid forcing matplotlib at module import time
+    import matplotlib.pyplot as _plt
+
+    # Ensure arrays are numpy arrays
+    sensor_a = np.asarray(sensor_a)
+    sensor_b = np.asarray(sensor_b)
+    timestamps = np.asarray(timestamps)
+
+    ax.scatter(timestamps, sensor_a, c='C0', s=25, alpha=0.7, label='Sensor A')
+    ax.scatter(timestamps, sensor_b, c='C1', s=35, alpha=0.7, label='Sensor B', marker='x')
+
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel('Temperature (°C)')
+    ax.set_title('Scatter of sensor readings vs time')
+    ax.legend()
+    ax.grid(alpha=0.3)
+    # No return; modifies ax in place
