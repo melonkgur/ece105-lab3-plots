@@ -99,3 +99,49 @@ def plot_scatter(sensor_a: np.ndarray, sensor_b: np.ndarray, timestamps: np.ndar
     ax.legend()
     ax.grid(alpha=0.3)
     # No return; modifies ax in place
+
+def plot_histogram(sensor_a: np.ndarray, sensor_b: np.ndarray, ax):
+    """Draw an overlaid histogram of two sensor temperature distributions.
+
+    The function computes bin edges that span both input arrays and plots
+    semi-transparent histograms for sensor_a and sensor_b on the provided
+    Matplotlib Axes. Axis labels, title, legend, and a light grid are added.
+    The Axes object is modified in place and nothing is returned.
+
+    Parameters
+    ----------
+    sensor_a : numpy.ndarray
+        1-D array of shape (N,) containing Sensor A temperature readings
+        (float-like).
+    sensor_b : numpy.ndarray
+        1-D array of shape (N,) containing Sensor B temperature readings
+        (float-like).
+    ax : matplotlib.axes.Axes
+        Matplotlib Axes instance on which to draw the histogram.
+
+    Returns
+    -------
+    None
+        The function modifies the provided Axes in place.
+    """
+    # Local import to avoid forcing matplotlib at module import time
+    import matplotlib.pyplot as _plt
+
+    sensor_a = np.asarray(sensor_a)
+    sensor_b = np.asarray(sensor_b)
+
+    # Determine bin edges that cover both datasets with a small margin
+    min_edge = float(min(sensor_a.min(), sensor_b.min()) - 1.0)
+    max_edge = float(max(sensor_a.max(), sensor_b.max()) + 1.0)
+    bins = np.linspace(min_edge, max_edge, 25)
+
+    ax.hist(sensor_a, bins=bins, alpha=0.6, color='C0', label='Sensor A')
+    ax.hist(sensor_b, bins=bins, alpha=0.6, color='C1', label='Sensor B')
+
+    ax.set_xlabel('Temperature (°C)')
+    ax.set_ylabel('Count')
+    ax.set_title('Overlaid histogram of Sensor A and Sensor B temperature distributions')
+    ax.legend()
+    ax.grid(alpha=0.3)
+    # modifies ax in place
+
