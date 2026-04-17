@@ -145,3 +145,43 @@ def plot_histogram(sensor_a: np.ndarray, sensor_b: np.ndarray, ax):
     ax.grid(alpha=0.3)
     # modifies ax in place
 
+def plot_boxplot(sensor_a: np.ndarray, sensor_b: np.ndarray, ax):
+    """Draw side-by-side box plots comparing two sensor distributions.
+
+    The function places box plots for sensor_a and sensor_b on the provided
+    Matplotlib Axes. Boxes are styled with a light fill color and a red median
+    line for clarity. Axis labels, title, and a subtle horizontal grid are
+    added. The Axes object is modified in place and nothing is returned.
+
+    Parameters
+    ----------
+    sensor_a : numpy.ndarray
+        1-D array of shape (N,) containing Sensor A temperature readings
+        (float-like).
+    sensor_b : numpy.ndarray
+        1-D array of shape (N,) containing Sensor B temperature readings
+        (float-like).
+    ax : matplotlib.axes.Axes
+        Matplotlib Axes instance on which to draw the box plots.
+
+    Returns
+    -------
+    None
+        The function modifies the provided Axes in place.
+    """
+    sensor_a = np.asarray(sensor_a)
+    sensor_b = np.asarray(sensor_b)
+
+    data = [sensor_a, sensor_b]
+    labels = ['Sensor A', 'Sensor B']
+
+    bp = ax.boxplot(data, labels=labels, patch_artist=True,
+                    boxprops=dict(facecolor='lightblue', color='C0'),
+                    medianprops=dict(color='red'),
+                    whiskerprops=dict(color='C0'), capprops=dict(color='C0'))
+
+    ax.set_ylabel('Temperature (°C)')
+    ax.set_title('Box plot of Sensor A and Sensor B')
+    ax.grid(axis='y', alpha=0.3)
+    # modifies ax in place
+
