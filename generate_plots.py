@@ -211,12 +211,12 @@ def main(seed: int = 3557):
     sensor_a, sensor_b, timestamps = generate_data(seed)
 
     # Create 1x3 subplot figure
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    fig, axes = plt.subplots(2, 2, figsize=(18, 5))
 
     # Plot each panel using the helper functions
-    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
-    plot_histogram(sensor_a, sensor_b, axes[1])
-    plot_boxplot(sensor_a, sensor_b, axes[2])
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0][0])
+    plot_histogram(sensor_a, sensor_b, axes[0][1])
+    plot_boxplot(sensor_a, sensor_b, axes[1][0])
 
     plt.tight_layout()
 
